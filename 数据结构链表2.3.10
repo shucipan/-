@@ -1,0 +1,64 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct LNode {
+	int data;
+	struct LNode *next;
+}LinkList;
+LinkList* InitList();
+void display(LinkList* p);
+LinkList* separate(LinkList* A);
+int main(void) {
+	LinkList* a = (LinkList*)malloc(sizeof(LNode)), * b = (LinkList*)malloc(sizeof(LNode));
+	a=InitList();
+	display(a);
+	b=separate(a);
+	display(b);
+	display(a);
+	return 0;
+}
+LinkList* InitList() {
+	LinkList* L;
+	LNode* s;
+	L = (LinkList*)malloc(sizeof(LNode));
+	L->next = NULL;
+	LinkList* temp = L;
+	for (int i = 1; i <= 16; i++) {
+		s = (LNode*)malloc(sizeof(LNode));
+		s->data = i;
+		s->next = NULL;
+		temp->next = s;
+		temp = temp->next;
+	}
+	return L;
+}
+
+void display(LinkList* p) {
+	LinkList* tmp = p;
+	while (tmp->next) {
+		tmp = tmp->next;
+		printf("%d ", tmp->data);
+
+	}
+
+	printf("\n");
+}
+LinkList* separate(LinkList* A) {
+	LinkList* B = (LinkList*)malloc(sizeof(LNode));
+	LinkList* rA = A,  * rB = B;
+	int i = 1;
+
+	while (rA->next != NULL) {
+		
+		if (i % 2 ==1) {
+			rA = rA->next;
+			rB->next = rA->next;
+			rA->next = rA->next->next;
+			rB = rB->next;
+			i++;
+		}
+		if (i % 2 == 0)
+			i++;;
+		
+	}
+	return B;
+}//B偶节点 A奇节点
